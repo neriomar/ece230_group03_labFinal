@@ -5,7 +5,7 @@ module clock_div
 (
     input clock,
     input reset,
-    output reg div_clock
+    output div_clock
 );
 
     wire [DIVIDE_BY - 1 : 0] NotQ;
@@ -27,8 +27,8 @@ module clock_div
         end
     endgenerate
     
-    always (*) begin
-        div_clock <= clk_in[DIVID_BY];
-    end
+    //always @(*) begin
+       assign div_clock = clk_in[DIVIDE_BY];
+    //end
 
 endmodule
