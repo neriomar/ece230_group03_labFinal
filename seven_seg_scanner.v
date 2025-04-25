@@ -3,7 +3,7 @@ module seven_seg_scanner(
     input reset,
     output [3:0] anode
 );
-    wire Anext, Bnext, Cnext, Dnext, Enext;
+    wire Anext, Bnext, Cnext, Dnext;
 
     dff Adff(
         .Default(1'b0),
@@ -37,9 +37,9 @@ module seven_seg_scanner(
         .reset(reset)
     );
 
-    assign Anext = anode[1];
-    assign Bnext = anode[2];
-    assign Cnext = anode[3];
-    assign Dnext = anode[0];
+    assign Anext = anode[3];
+    assign Bnext = anode[0];
+    assign Cnext = anode[1];
+    assign Dnext = anode[2];
 
 endmodule

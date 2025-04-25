@@ -12,6 +12,8 @@ module top
 );
 
     wire divClock;
+    wire [3:0] AplusB;
+    wire [3:0] AminusB;
 
     // Instantiate the clock divider...
     // ... wire it up to the scanner
@@ -22,8 +24,29 @@ module top
       .reset(btnC),
       .div_clock(divClock)
     );
+    
+    seven_seg_scanner scanner(
+        .div_clock(divClock),
+        .reset(btnC),
+        .anode(an)
+    );
+    
+    seven_seg_decoder decoder(
+        .A(sw[3:0]),
+        .B(sw[7:4]),
+        .AplusB(AplusB),
+        .AminusB(AminusB),
+        .anode(an),
+        .segs(seg)
+    );
 
     // Wire up the math block into the decoder
+    math_block math(
+        .A(sw[3:0]),
+        .B(sw[7:4]),
+        .AplusB(AplusB),
+        .AminusB(AminusB)
+    );
 
     // Do not forget to wire up resets!!
 

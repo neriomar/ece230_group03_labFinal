@@ -7,16 +7,16 @@ module dff(
     output NotQ
 );
 
-    initial begin
-        Q <= Default;
-    end
+//    initial begin
+//        Q <= Default;
+//    end
 
     assign NotQ = ~Q;
 
     always @(posedge reset, posedge clock) begin
         if (reset) begin
-            Q <= 0;
-        end else if (clock) begin
+            Q <= Default;
+        end else begin
             Q <= D;
         end
     end

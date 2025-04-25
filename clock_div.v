@@ -9,26 +9,33 @@ module clock_div
 );
 
     wire [DIVIDE_BY - 1 : 0] NotQ;
-    wire [DIVIDE_BY : 0] clk_in;
-    // wire [DIVIDE_BY : 0] clk_out;
+    wire [DIVIDE_BY - 1 : 0] clk_in;
 
-    assign clk_in[0] = clock;
 
+
+    dff d_ff (
+        .Default(1'b0),
+        .reset(reset),
+        .clock(clock),
+        .D(NotQ[0]),
+        .Q(clk_in[0]),
+        .NotQ(NotQ[0])
+    );      
+           
     genvar i;
     generate
-        for(i = 0; i < DIVIDE_BY; i = i + 1) begin : generate_chained_dffs
+        for(i = 1; i < DIVIDE_BY; i = i + 1) begin : generate_chained_dffs
             dff d_ff (
+                .Default(1'b0),
                 .reset(reset),
-                .clock(clk_in[i]),
+                .clock(clk_in[i-1]),
                 .D(NotQ[i]),
-                .Q(clk_in[i + 1]),
+                .Q(clk_in[i]),
                 .NotQ(NotQ[i])
             );             
         end
     endgenerate
     
-    //always @(*) begin
-       assign div_clock = clk_in[DIVIDE_BY];
-    //end
+    assign div_clock = clk_in[DIVIDE_BY -1];
 
 endmodule
